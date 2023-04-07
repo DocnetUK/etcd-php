@@ -304,7 +304,6 @@ class Client
             'ID' => $id,
         ];
 
-
         $body = $this->request(self::URI_GRANT, $params);
 
         return $body;
@@ -374,7 +373,7 @@ class Client
         $body = $this->request(self::URI_TIMETOLIVE, $params);
 
         if (isset($body['keys'])) {
-            $body['keys'] = array_map(function($value) {
+            $body['keys'] = array_map(function ($value) {
                 return base64_decode($value);
             }, $body['keys']);
         }
