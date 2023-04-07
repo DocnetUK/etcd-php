@@ -69,6 +69,11 @@ class Client
     protected $httpOptions;
 
     /**
+     * @var HttpClient|null
+     */
+    protected $httpClient = null;
+
+    /**
      * @var bool
      */
     protected $pretty = false;
@@ -736,18 +741,18 @@ class Client
 
     protected function getHttpClient()
     {
-        static $httpClient = null;
-        if ($httpClient !== null) {
-            return $httpClient;
+        if ($this->httpClient !== null) {
+            return $this->httpClient;
         }
+
         $baseUri = sprintf('%s/%s/', $this->server, $this->version);
         $this->httpOptions['base_uri'] = $baseUri;
         if (!array_key_exists('timeout', $this->httpOptions)) {
             $this->httpOptions['timeout'] = self::DEFAULT_HTTP_TIMEOUT;
         }
-        $httpClient = new HttpClient($this->httpOptions);
+        $this->httpClient = new HttpClient($this->httpOptions);
 
-        return $httpClient;
+        return $this->httpClient;
     }
 
     /**
